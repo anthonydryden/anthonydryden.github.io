@@ -1,0 +1,81 @@
+<html>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<pre class="prettyprint">
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class BuildPath : MonoBehaviour {
+
+    public string direction;
+    public GameObject mutatedFrom;
+    public int multiplier;
+
+    public GameObject openLeft, openRight, openUp, openDown;
+    public GameObject vertical;
+    public GameObject horizontal;
+    public GameObject bottomLeft;
+    public GameObject bottomRight;
+    public GameObject topLeft;
+    public GameObject topRight;
+
+    float currentX;
+    float currentY;
+    Quaternion tileRotation = Quaternion.identity;
+
+    // Use this for initialization
+    void Start () {
+        GameObject GameController = GameObject.Find("GameController");
+        multiplier = GameController.GetComponent<LevelCreation>().multiplier;
+
+        currentX = transform.position.x;
+        currentY = transform.position.y;
+
+        var layer = 9;
+        var layermask = 1 << layer;
+
+        if (Physics2D.OverlapCircle(new Vector2(currentX, currentY), 1, layermask)) {
+            Destroy(gameObject);
+        } else {
+            if (direction == "up") {
+                if (!Physics2D.OverlapCircle(new Vector2(currentX, currentY + multiplier), 1)) {
+                    Instantiate(openDown, new Vector2(currentX, currentY + multiplier), tileRotation);
+                } else {
+                    Instantiate(mutatedFrom, new Vector2(currentX, currentY), tileRotation);
+                    Destroy(gameObject);
+                }
+            } else if (direction == "down") {
+                if (!Physics2D.OverlapCircle(new Vector2(currentX, currentY - multiplier), 1)) {
+                    Instantiate(openUp, new Vector2(currentX, currentY - multiplier), tileRotation);
+                } else {
+                    Instantiate(mutatedFrom, new Vector2(currentX, currentY), tileRotation);
+                    Destroy(gameObject);
+                }
+            } else if (direction == "left") {
+                if (!Physics2D.OverlapCircle(new Vector2(currentX - multiplier, currentY), 1)) {
+                    Instantiate(openRight, new Vector2(currentX - multiplier, currentY), tileRotation);
+                } else {
+                    Instantiate(mutatedFrom, new Vector2(currentX, currentY), tileRotation);
+                    Destroy(gameObject);
+                }
+            } else if (direction == "right") {
+                if (!Physics2D.OverlapCircle(new Vector2(currentX + multiplier, currentY), 1)) {
+                    Instantiate(openLeft, new Vector2(currentX + multiplier, currentY), tileRotation);
+                } else {
+                    Instantiate(mutatedFrom, new Vector2(currentX, currentY), tileRotation);
+                    Destroy(gameObject);
+                }
+            }
+        }
+	}
+
+}
+
+</pre>
+</html>

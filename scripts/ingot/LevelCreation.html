@@ -1,0 +1,347 @@
+<html>
+
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<pre class="prettyprint">
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class LevelCreation : MonoBehaviour {
+
+    public GameObject player1, player2;
+    public int multiplier = 5;
+    public int splitChance;
+    public GameObject openLeft, openRight, openUp, openDown;
+    public GameObject vertical;
+    public GameObject horizontal;
+    public GameObject bottomLeft;
+    public GameObject bottomRight;
+    public GameObject topLeft;
+    public GameObject topRight;
+    public GameObject topLeftRight;
+    public GameObject topLeftBottom;
+    public GameObject topRightBottom;
+    public GameObject bottomLeftRight;
+
+    public GameObject end;
+
+
+    private bool xreached = false;
+    private bool yreached = false;
+    private bool complete = false;
+
+    void Awake() {
+        int startX = Random.Range(0, LevelValues.sizeX);
+        int startY = Random.Range(0, LevelValues.sizeY);
+        int endX = Random.Range(0, LevelValues.sizeX);
+        int endY = Random.Range(0, LevelValues.sizeY);
+
+        int xDiff = 0;
+        int yDiff = 0;
+        int maxDiff = LevelValues.maxDiff;
+
+        while (startX == endX) {
+            endX = Random.Range(0, LevelValues.sizeX);
+        }
+
+        while (startY == endY) {
+            endY = Random.Range(0, LevelValues.sizeY);
+        }
+
+        if (startX > endX) {
+            xDiff = startX - endX;
+            if (xDiff <= maxDiff) {
+                endX--;
+            }
+        } else if (endX > startX) {
+            xDiff = endX - startX;
+            if (xDiff <= maxDiff) {
+                endX++;
+            }
+        }
+
+        if (startY > endY) {
+            yDiff = startY - endY;
+            if (yDiff <= maxDiff) {
+                endY--;
+            }
+        } else if (endY > startY) {
+            yDiff = endY - startY;
+            if (yDiff <= maxDiff) {
+                endY++;
+            }
+        }
+
+        Vector2 start = new Vector2(startX * multiplier, startY * multiplier);
+        Quaternion tileRotation = Quaternion.identity;
+
+        if (startX < endX) {
+            Instantiate(openRight, start, tileRotation);
+        } else if (startX > endX) {
+            Instantiate(openLeft, start, tileRotation);
+        } else if (startY < endY) {
+            Instantiate(openUp, start, tileRotation);
+        } else if (startY > endY) {
+            Instantiate(openDown, start, tileRotation);
+        }
+
+        GameObject Player = (GameObject)Instantiate(player1, new Vector2(startX * multiplier, startY * multiplier), tileRotation);
+        Player.name = "Player";
+        //GameObject Player2 = (GameObject)Instantiate(player2, new Vector2(startX * multiplier, startY * multiplier - 1), tileRotation);
+        //Player2.name = "Player2";
+
+        GameObject threeTile;
+
+        int currentX = startX;
+        int currentY = startY;
+
+        while (!complete) {
+            int previousX = currentX;
+            int previousY = currentY;
+
+            if (!xreached) {
+                if (startX < endX) {
+                    currentX++;
+
+                    if (!yreached) {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (startY < endY) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topLeftBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "down";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topLeft;
+                                } else {
+                                    threeTile = Instantiate(topLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "right";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topLeft;
+                                }
+                            } else if (startY > endY) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topLeftBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "up";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomLeft;
+                                } else {
+                                    threeTile = Instantiate(bottomLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "right";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomLeft;
+                                }
+                            }
+                        } else {
+                            if (startY < endY) {
+                                Instantiate(topLeft, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            } else if (startY > endY) {
+                                Instantiate(bottomLeft, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            }
+                        }
+                    } else {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (HalfChance() == 1) {
+                                threeTile = Instantiate(topLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "up";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = horizontal;
+                            } else {
+                                threeTile = Instantiate(bottomLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "down";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = horizontal;
+                            }
+                        } else {
+                            Instantiate(horizontal, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                        }
+                    }
+
+                } else if (startX > endX) {
+                    currentX--;
+
+                    if (!yreached) {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (startY < endY) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topRightBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "down";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topRight;
+                                } else {
+                                    threeTile = Instantiate(topLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "left";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topRight;
+                                }
+                            } else if (startY > endY) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topRightBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "up";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomRight;
+                                } else {
+                                    threeTile = Instantiate(bottomLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "left";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomRight;
+                                }
+                            }
+                        } else {
+                            if (startY < endY) {
+                                Instantiate(topRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            } else if (startY > endY) {
+                                Instantiate(bottomRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            }
+                        }
+                    } else {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (HalfChance() == 1) {
+                                threeTile = Instantiate(topLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "up";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = horizontal;
+                            } else {
+                                threeTile = Instantiate(bottomLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "down";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = horizontal;
+                            }
+                        } else {
+                            Instantiate(horizontal, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                        }
+                    }
+
+                }
+            }
+
+
+            if (currentX == endX) {
+                xreached = true;
+            }
+
+            if (!yreached) {
+                if (startY < endY) {
+                    currentY++;
+
+                    if (!xreached) {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (startX > endX) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topLeftBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "up";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomLeft;
+                                } else {
+                                    threeTile = Instantiate(bottomLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "right";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomLeft;
+                                }
+                            } else if (startX < endX) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topRightBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "up";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomRight;
+                                } else {
+                                    threeTile = Instantiate(bottomLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "left";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = bottomRight;
+                                }
+
+                            }
+                        } else {
+                            if (startX > endX) {
+                                Instantiate(bottomLeft, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            } else if (startX < endX) {
+                                Instantiate(bottomRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            }
+                        }
+                    } else if (currentY != endY) {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (HalfChance() == 1) {
+                                threeTile = Instantiate(topLeftBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "left";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = vertical;
+                            } else {
+                                threeTile = Instantiate(topRightBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "right";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = vertical;
+                            }
+                        } else {
+                            Instantiate(vertical, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                        }
+
+                    }
+
+                } else if (startY > endY) {
+                    currentY--;
+
+                    if (!xreached) {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (startX > endX) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topLeftBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "down";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topLeft;
+                                } else {
+                                    threeTile = Instantiate(topLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "right";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topLeft;
+                                }
+                            } else if (startX < endX) {
+                                if (HalfChance() == 1) {
+                                    threeTile = Instantiate(topRightBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "down";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topRight;
+                                } else {
+                                    threeTile = Instantiate(topLeftRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                    threeTile.GetComponent<BuildPath>().direction = "left";
+                                    threeTile.GetComponent<BuildPath>().mutatedFrom = topRight;
+                                }
+                            }
+                        } else {
+                            if (startX > endX) {
+                                Instantiate(topLeft, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            } else if (startX < endX) {
+                                Instantiate(topRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                            }
+                        }
+                    } else if (currentY != endY) {
+                        if (Random.Range(1, 10) > splitChance) {
+                            if (HalfChance() == 1) {
+                                threeTile = Instantiate(topLeftBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "left";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = vertical;
+                            } else {
+                                threeTile = Instantiate(topRightBottom, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                                threeTile.GetComponent<BuildPath>().direction = "right";
+                                threeTile.GetComponent<BuildPath>().mutatedFrom = vertical;
+                            }
+                        } else {
+                            Instantiate(vertical, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                        }
+                    }
+
+                }
+            }
+
+            if (currentY == endY) {
+                yreached = true;
+            }
+
+            if (xreached) {
+                if (yreached) {
+                    complete = true;
+                    Instantiate(end, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+
+
+                    if (previousX < currentX && previousY == currentY) {
+                        Instantiate(openLeft, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                    } else if (previousX > currentX && previousY == currentY) {
+                        Instantiate(openRight, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                    } else if (previousY < currentY) {
+                        Instantiate(openDown, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                    } else if (previousY > currentY) {
+                        Instantiate(openUp, new Vector2(currentX * multiplier, currentY * multiplier), tileRotation);
+                    }
+
+                }
+            }
+
+        }
+    }
+
+    int HalfChance() {
+        return (Random.Range(0, 2));
+    }
+}
+
+</pre>
+</html>

@@ -1,0 +1,33 @@
+<html>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<pre class="prettyprint">
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class GameController : MonoBehaviour {
+
+    public GameObject enemy;
+    public float spawnRate;
+
+    Vector3 spawnPosition;
+    float spawnTimer;
+
+    void Start() {
+        
+    }
+
+    // Update is called once per frame
+    void Update () {
+        if (spawnTimer < Time.time) {
+            spawnPosition = new Vector3(Random.Range(-30, 30), 0, Random.Range(-30, 30));
+            Instantiate(enemy, spawnPosition, Quaternion.identity);
+            spawnTimer = Time.time + spawnRate;
+        }
+    }
+}
+
+</pre>
+</html>

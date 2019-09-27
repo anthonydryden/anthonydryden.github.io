@@ -1,77 +1,159 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<!--
-Design by TEMPLATED
-http://templated.co
-Released for free under the Creative Commons Attribution License
-
-Name       : Veridical 
-Description: A two-column, fixed-width design with dark color scheme.
-Version    : 1.0
-Released   : 20131203
-
--->
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Anthony Dryden - Projects</title>
-<meta name="keywords" content="" />
-<meta name="description" content="" />
-<link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900" rel="stylesheet" />
-<link href="default.css" rel="stylesheet" type="text/css" media="all" />
-<link href="fonts.css" rel="stylesheet" type="text/css" media="all" />
 
-<!--[if IE 6]><link href="default_ie6.css" rel="stylesheet" type="text/css" /><![endif]-->
+<head>
+<title> Anthony Dryden </title>
+<link rel="stylesheet" type="text/css" href="./style.css">
+<link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+<script src="https://kit.fontawesome.com/a9e549ab2f.js"></script>
+
+<div class="headerimage"></div>
+<div class="headertext">ANTHONY DRYDEN</div>
+
+<div class="menu"> 
+	<a href="index.html" class="button" disabled> HOMEPAGE </a>
+	<a class="selectedbutton"> PROJECTS </a>
+	<a href="experience.html" class="button"> EXPERIENCE </a>
+</div>
+
+<div class="footerimage"></div>
+<div class="footertext">Made by Anthony Dryden</div>
 
 </head>
+
 <body>
-<div id="header-wrapper">
-	<div id="header" class="container">
-		<div id="menu">
-			<ul>
-				<li><a href="index.html" accesskey="1" title="">Homepage</a></li>
-				<li><a href="experience.html" accesskey="2" title="">Experience</a></li>
-				<li class="current_page_item"><a href="projects.html" accesskey="3" title="">Projects</a></li>
-			</ul>
-		</div>
-		<div id="logo">
-			<h1><a href="index.html">ANTHONY DRYDEN</a></h1>
-		</div>
-	</div>
+
+
+
+<div class="body"> 
+<div class="bodytext">
+
+<table>
+<tr>
+<th class="tableheader">
+<span class="experience_icons"><i class="fas fa-gamepad"></i></span>GAME: SPACE SHOOTER
+</th>
+
+<th class="tableheader">
+<span class="experience_icons"><i class="fas fa-gamepad" ></i></span>GAME: PLANET ZOMBALIEN
+</th>
+</tr>
+
+<tr class="rowbackground">
+
+<td>
+A game developed during my time studying at the Western Sydney University. A simple game that allowed me to gain introductory skills into the Unity engine, as well as learning more indepth about JavaScript and C# coding, as they are the main two languages of Unity. All assets were provided by Unity themselves as this is an tutorial on their website.
+<br/>
+<br/>
+Scripts created for this project:
+<ul class="projectlists">
+<li><a href="scripts/spaceshooter/GameController.html">GameController.cs</a></li>
+<li><a href="scripts/spaceshooter/PlayerController.html">PlayerController.cs</a></li>
+</ul>
+<br/>
+<img src="images/spaceshooter.jpg">
+</td>
+<td>
+
+My first independently developed game that I created as part of my game development unit at the Western Sydney University. I am proud of it, even if there are some kinks and bugs that would need to be worked out in a future re-release and a redoing of the art. It taught me an amazing amount about the systems of Unity, such as sound controllers, animation and sprite creation. This was overall very fun and very stressful to work on, and I achieved a 73 for this project.
+<br/>
+<br/>
+Scripts created for this project:
+<ul class="projectlists">
+<li><a href="scripts/planetzombalien/GameController.html">GameController.cs</a></li>
+<li><a href="scripts/planetzombalien/PlayerController.html">PlayerController.cs</a></li>
+<li><a href="scripts/planetzombalien/ZombieAI.html">ZombieAI.cs</a></li>
+</ul>
+<br/>
+<img src="images/planetzombalien.jpg">
+</td>
+
+</td>
+</tr>
+
+<tr>
+<td  class="buttonrow">
+Controls: WASD to move, left-click to fire
+<br/><br/>
+<a href="web_builds/Space_Shooter/play.html" class="tablebutton"><i class="fas fa-play"></i>   Play</a>
+</td>
+<td  class="buttonrow">
+Controls: WASD to move, left-click to fire, space to jump
+<br/><br/>
+<a href="web_builds/Planet_Zombalien/play.html" class="tablebutton"><i class="fas fa-play"></i>   Play</a>
+</td>
+</tr>
+
+<tr>
+<th class="tableinsideheader">
+<span class="experience_icons"><i class="fas fa-cog" ></i></span>PROTOTYPE: 2D ACTION RPG
+</th>
+<th class="tableinsideheader">
+<span class="experience_icons"><i class="fas fa-cog" ></i></span>PROTOTYPE: 3D ISOMETRIC RPG
+</th>
+</tr>
+
+<tr>
+
+<td>
+A project I worked on that adapted a random generation script that I created. The random generation script would sometimes only create the branching blocks and I have a variable to control these blocks appearing. The current build always creates these branching blocks as it led to more complex mazes and more interesting gameplay, so I decided to keep it. The grid size is also scalable and adjusts accordingly. The spawn of "ore veins", which are currently the pink squares, can also be altered to increase as the game progresses, but this is still currently a prototype that needs a lot of AI, art and sound work. I am hoping to progress this into a rogue-like with unlockable abilities and characters that may be able to be played on a mobile as well as consoles and desktops.
+<br/>
+<br/>
+Scripts created for this project:
+<ul class="projectlists">
+<li><a href="scripts/ingot/LevelCreation.html">LevelCreation.cs</a></li>
+<li><a href="scripts/ingot/BuildPath.html">BuildPath.cs</a></li>
+<li><a href="scripts/ingot/PlayerController.html">PlayerController.cs</a></li>
+</ul>
+<br/>
+<img src="images/ingot.jpg">
+</td>
+
+<td>
+I have always enjoyed playing Action RPG games such as the Diablo series, so I attempted to get a start on something in that genre. Unity recently added the Navmesh function that allows developers to have more advanced AI that can roam around a map and avoid obstacles and this is the result of working with that new feature. This is still a very early prototype, but I hope you can see what I am aiming for. I plan to make it magically based, with you playing as a wizard and collecting spells that you can upgrade as you adventure through a dungeon.
+<br/>
+<br/>
+Scripts created for this project:
+<ul class="projectlists">
+<li><a href="scripts/prototype3drpg/PlayerController.html">PlayerController.cs</a></li>
+<li><a href="scripts/prototype3drpg/EnemyController.html">EnemyController.cs</a></li>
+<li><a href="scripts/prototype3drpg/GameController.html">GameController.cs</a></li>
+</ul>
+<br/>
+<img src="images/3disometricrpg.jpg">
+</td>
+
+</tr>
+
+<tr>
+<td  class="buttonrow">
+Controls: WASD to move, space to mine near purple squares
+<br/><br/>
+<a href="web_builds/Ingot/play.html" class="tablebutton"><i class="fas fa-play"></i>   Play</a>
+</td>
+<td  class="buttonrow">
+Controls: Left-click to move, right-click to fire
+<br/><br/>
+<a href="web_builds/3DIsometricRPG/play.html" class="tablebutton"><i class="fas fa-play"></i>   Play</a>
+</td>
+</tr>
+
+<tr>
+<th class="tablecenterheader">
+<span class="experience_icons"><i class="fas fa-globe" ></i></span>THIS WEBSITE
+</th>
+</tr>
+
+<tr>
+<td class="tablecenterdata">
+I have built this website from scratch in an effort to refine my coding skills and learn more about what HTML5 and CSS is capable of now. The code itself is amateurish but the website itself looks stylish and minimalistic, and there are no serious errors. I would like to adapt and create a mobile version at some stage, as well as test on multiple different browsers and experiment with more transitions and effects.
+</td>
+</tr>
+
+</table>
+
 </div>
-<div id="wrapper3">
-	<div id="portfolio" class="container">
-		<div class="title">
-			<span class="byline">A description of the projects I have worked on, in both university and my spare time</span> </div>
-		<div class="pbox1">
-			<div class="column1">
-				<div class="box"> <span class="icon icon-play"></span>
-					<h3>GAME: <a href="web_builds/Space_Shooter/index.html">Space Shooter</a></h3>
-					<p>The first game I made during my time at university. It was my first experience with the Unity engine. I learned how to develop in both Java and C# as the engine supports both languages.</p>
-				</div>
-			</div>
-			<div class="column2">
-				<div class="box"> <span class="icon icon-play"></span>
-					<h3>GAME: <a href="web_builds/Planet_Zombalien/index.html">Planet Zombalien</a></h3>
-					<p>The second game I created during my time at university, which was a more independent project. This game allowed me to learn on my own how to create and import art assets, user interface elements, enemy AI and many more things. I would like to fix some bugs for quality assurance and add animations, but I will keep it in this state as it was a learning experience. </p>
-				</div>
-			</div>
-			<div class="column3">
-				<div class="box"> <span class="icon icon-cog"></span>
-					<h3>SCRIPT: <a href="randomlevelgeneration.html">Random Level Generation</a></h3>
-					<p>A random level generation script I created in my spare time while working at JB Hi-Fi. I learned more in-depth about arrays and loops, especially how to not create infinite loops. This script was a prototype that was made in Java. I would like to return to this script to add extra comments and complete it, but it has been brought over to a Unity engine game I am currently working on.</p>
-				</div>
-			</div>
-			<div class="column4">
-				<div class="box"> <span class="icon icon-book"></span>
-					<h3>UNIVERSITY: 360 Timelapse</h3>
-					<p>Part of a Professional Experience course in University, I created a web portal that controlled a Ricoh Theta 360 degree camera, which had a backend NodeJS application to capture 360 degree photos at set intervals, and stitch them together to create a 360 timelapse video.</p>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
-<div id="copyright">
-	<p>Photos by <a href="http://fotogrph.com/">Fotogrph</a> | Design by <a href="http://templated.co" rel="nofollow">TEMPLATED</a>.</p>
-</div>
+
 </body>
+
 </html>

@@ -1,0 +1,176 @@
+<html>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<pre class="prettyprint">
+
+using UnityEngine;
+using System.Collections;
+
+public class GameController : MonoBehaviour {
+
+	public int levelNo;
+
+	public float spawnTimer = 1;
+	public float timeToStart = 3;
+	private float nextSpawn;
+	private bool startedSpawning = false;
+	
+	public int spawnCount = 30;
+	public int enemyCount;
+
+	PlayerController Player;
+	private bool gameWin = false;
+	private bool gameLose = false;
+
+	public GUIText health;
+	public GUIText ammo;
+	public GUIText killedEnemies;
+	public GUIText maxEnemies;
+	public GUITexture winScreen;
+	public GUITexture loseScreen;
+
+	AudioSource music;
+	AudioSource winSound;
+	AudioSource loseSound;
+	private bool fanfare = true;
+
+	private bool spawning = false;
+	private int spawnPoint;
+
+	public GameObject zombie_alien;
+
+	public Transform rightPlatformSpawn;
+	public Transform leftPlatformSpawn;
+	public Transform topPlatformSpawn;
+	public Transform leftBottomSpawn;
+	public Transform rightBottomSpawn;
+	
+	
+	void Start () {
+		Player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+
+		health.text = "" + Player.playerHealth * 10 + "";
+		ammo.text = "" + Player.clipAmmo + "";
+		killedEnemies.text = "" + Player.killCount + "";
+
+		enemyCount = spawnCount;
+		maxEnemies.text = "" + enemyCount + "";
+
+		AudioSource[] audioSource = GetComponents<AudioSource> ();
+		music = audioSource [0];
+		winSound = audioSource [1];
+		loseSound = audioSource [2];
+
+	}
+	
+	// Update is called once per frame
+	void Update () {
+
+		if (timeToStart < Time.time && !startedSpawning) {
+			spawning = true;
+			startedSpawning = true;
+		}
+
+
+		if (spawning && nextSpawn < Time.time && startedSpawning && Player.playerAlive) {
+			spawnPoint = Random.Range (1, 6);
+
+			if (spawnPoint == 1) {
+				Instantiate (zombie_alien, rightPlatformSpawn.position, rightPlatformSpawn.rotation);
+				spawnCount = spawnCount - 1;
+				nextSpawn = Time.time + spawnTimer;
+				
+			} else if (spawnPoint == 2) {
+				Instantiate (zombie_alien, leftPlatformSpawn.position, leftPlatformSpawn.rotation);
+				spawnCount = spawnCount - 1;
+				nextSpawn = Time.time + spawnTimer;
+				
+			} else if (spawnPoint == 3) {
+				Instantiate (zombie_alien, topPlatformSpawn.position, topPlatformSpawn.rotation);
+				spawnCount = spawnCount - 1;
+				nextSpawn = Time.time + spawnTimer;
+				
+			} else if (spawnPoint == 4) {
+				Instantiate (zombie_alien, rightBottomSpawn.position, rightBottomSpawn.rotation);
+				spawnCount = spawnCount - 1;
+				nextSpawn = Time.time + spawnTimer;
+				
+			} else if (spawnPoint == 5) {
+				Instantiate (zombie_alien, leftBottomSpawn.position, leftBottomSpawn.rotation);
+				spawnCount = spawnCount - 1;
+				nextSpawn = Time.time + spawnTimer;
+				
+			}
+
+		}
+
+		if (spawnCount == 0) {
+			spawning = false;
+		}
+		
+		if (Player.playerAlive && enemyCount == Player.killCount) {
+
+			gameWin = true;
+		} else if (Player.playerAlive == false) {
+
+			gameLose = true;
+		}
+
+		if (gameWin) {
+			winScreen.enabled = true;
+
+			if (fanfare) {
+				music.Stop ();
+				winSound.Play ();
+				fanfare = false;
+			}
+
+			if (Input.GetKeyDown("p")) {
+				if (levelNo == 1) {
+
+					Application.LoadLevel ("level2");
+
+				} else if (levelNo == 2) {
+
+					Application.LoadLevel ("level3");
+
+				} else if (levelNo == 3) {
+
+					Application.LoadLevel ("mainMenu");
+
+				} else if (levelNo == 5) {
+
+					Application.Quit();
+
+				}
+			}
+
+		}
+
+		if (gameLose) {
+			loseScreen.enabled = true;
+
+			if (fanfare) {
+				music.Stop ();
+				loseSound.Play ();
+				fanfare = false;
+			}
+
+			if (Input.GetKeyDown("p")) {
+
+				Application.LoadLevel ("level"+levelNo+"");
+
+			}
+		}
+
+
+		health.text = "" + Player.playerHealth * 10 + "";
+		ammo.text = "" + Player.clipAmmo + "";
+		killedEnemies.text = "" + Player.killCount + "";
+
+	}
+}
+
+
+</pre>
+</html>

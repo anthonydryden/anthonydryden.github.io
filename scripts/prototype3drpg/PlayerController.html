@@ -1,0 +1,183 @@
+<html>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<pre class="prettyprint">
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class PlayerController : MonoBehaviour {
+    public float speed;
+    public GameObject projectileSpawn;
+    public GameObject projectile;
+
+    public Vector3 targetPosition;
+    private string playerType;
+    private Animator anim;
+    private Rigidbody rb;
+
+    private NavMeshAgent agent;
+
+    //controller variables
+    float moveHorizontal;
+    float moveVertical;
+    float horizontalTarget;
+    float verticalTarget;
+
+    // Use this for initialization
+    void Start () {
+        playerType = this.gameObject.tag;
+
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+
+        anim = GetComponent<Animator>();
+        //rb = GetComponent<Rigidbody>();
+    }
+
+    void Update() {
+        if (playerType == "Player") {
+            if (Input.GetMouseButtonDown(0)) {
+                GetTargetPosition();
+                RotateToMouse();
+                agent.isStopped = false;
+            }
+            
+            agent.SetDestination(targetPosition);
+
+            if (Input.GetMouseButtonDown(1)) {
+                agent.isStopped = true;
+                RotateToMouse();
+                anim.Play("PlayerAttack");
+                Instantiate(projectile, projectileSpawn.transform.position, projectileSpawn.transform.rotation);
+        }
+            /*
+            if (agent.destination != transform.position) {
+                anim.Play("PlayerMove");
+            }
+            */
+        } /*else if (playerType == "Ally") {
+            if (Input.GetButtonDown("j1A")) {
+                print("working");
+            }
+            float moveHorizontal = Input.GetAxis("j1Horizontal");
+            float moveVertical = Input.GetAxis("j1Vertical");
+
+            Vector3 movement = new Vector3(moveHorizontal, 0.0f, moveVertical);
+
+            rb.AddForce(movement * speed);
+            
+        }*/
+
+        //if (!agent.isStopped) {
+        /*
+        var targetPoint = new Vector3(targetPosition.x, transform.position.y, targetPosition.z);
+        var _direction = (targetPoint - transform.position);
+        var _lookRotation = Quaternion.LookRotation(_direction);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, _lookRotation, 360);
+        */
+        //}
+
+        if (playerType == "Ally") {
+            /*
+            if (Input.GetAxisRaw("j1Vertical") == -1) {
+                moveHorizontal = 0;
+                moveVertical = 1;
+            } else {
+                moveHorizontal = 0;
+                moveVertical = 0;
+            }
+            */
+            /*
+            if (Input.GetAxisRaw("j1Horizontal") == 1 && Input.GetAxisRaw("j1Vertical") == 1) {
+                moveHorizontal = Input.GetAxis("j1Horizontal");
+            }
+
+            if (Input.GetAxisRaw("j1Vertical") > 0.4 || Input.GetAxisRaw("j1Vertical") < -0.4) {
+                moveVertical = Input.GetAxis("j1Vertical");
+            }
+            */
+
+            if (Input.GetAxisRaw("j1Horizontal") != 0) {
+                moveHorizontal = Input.GetAxisRaw("j1Horizontal");
+            }
+            if (Input.GetAxisRaw("j1Vertical") != 0) {
+                moveVertical = Input.GetAxisRaw("j1Vertical");
+            }
+
+            horizontalTarget = (transform.position.x + moveHorizontal);
+            verticalTarget = (transform.position.z - moveVertical);
+
+            targetPosition = new Vector3(horizontalTarget, 0.0f, verticalTarget);
+            transform.LookAt(targetPosition);
+
+            agent.SetDestination(targetPosition);
+
+            if (Input.GetButtonDown("j1A")) {
+                print("success!");
+            }
+        }
+
+        //transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * speed);
+
+        //Vector3 currentPosition = this.transform.position;
+        //this.transform.position = clickedPosition;
+    }
+
+    void LateUpdate() {
+        //transform.LookAt(Quaternion.LookRotation(agent.velocity.normalized));
+    }
+
+    void GetTargetPosition() {
+        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast(ray, out hit)) {
+            if (hit.collider.tag == "Ally") {
+                targetPosition = hit.point;
+            } else if (hit.collider.tag == "Enemy") {
+                targetPosition = hit.point;
+            } else {
+                targetPosition = hit.point;
+            }
+        }
+    }
+
+    void RotateToMouse() {
+        var pointTowards = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit screenLocation = new RaycastHit();
+        if (Physics.Raycast(pointTowards, out screenLocation)) {
+            Vector3 lookLocation = new Vector3 (screenLocation.point.x, 0.0f, screenLocation.point.z);
+            transform.LookAt(lookLocation);
+        }
+        /*
+        
+        var direction = (worldPoint - transform.position).normalized;
+        print(direction);
+
+        /*
+        RaycastHit mouseLocation = new RaycastHit();
+        if (Physics.Raycast(ray, out mouseLocation)) {
+            print(mouseLocation.point);
+            transform.rotation = Quaternion.Euler(0, mouseLocation.point.y, 0);
+        }
+        */
+    }
+
+    /*
+    void OnMouseDown () {
+        //clickedPosition = MainCamera.ScreenToWorldPoint(Input.mousePosition);
+        var ray = MainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit = new RaycastHit();
+        if (Physics.Raycast (ray, out hit)) {
+            Debug.Log(hit.collider.gameObject.name);
+        }
+	}
+    */
+}
+
+
+</pre>
+</html>

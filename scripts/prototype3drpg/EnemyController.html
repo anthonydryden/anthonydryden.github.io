@@ -1,0 +1,50 @@
+<html>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<pre class="prettyprint">
+
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
+public class EnemyController : MonoBehaviour {
+
+    private GameObject Player;
+
+    private bool isDead = false;
+
+    private Animator anim;
+    private NavMeshAgent agent;
+
+	// Use this for initialization
+	void Start () {
+        agent = GetComponent<NavMeshAgent>();
+        agent.updateRotation = false;
+        Player = GameObject.FindGameObjectWithTag("Player");
+        anim = GetComponent<Animator>();
+    }
+	
+	// Update is called once per frame
+	void Update () {
+        agent.SetDestination(Player.transform.position);
+        if (!isDead) {
+            transform.LookAt(Player.transform);
+        }
+	}
+
+    public void Death() {
+        isDead = true;
+        agent.isStopped = true;
+        anim.Play("EnemyDeath");
+        gameObject.GetComponent<BoxCollider>().isTrigger = true;
+    }
+
+    public void DestroySelf() {
+        Destroy(this.gameObject);
+    }
+}
+
+
+</pre>
+</html>

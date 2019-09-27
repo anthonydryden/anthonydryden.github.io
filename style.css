@@ -1,0 +1,210 @@
+* { position: relative; margin: 0; padding: 0;}
+
+.headerimage {
+	background-image: url("images/headerimage.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+
+	min-height: 400px;
+	width: 100%;
+
+	position: relative;
+	pointer-events: none;
+}
+
+.headertext {
+	top: -300px;
+	position: relative;
+	color: white;
+	font-size: 70px;
+	text-align: center;
+	font-weight: bold;
+	font-family: 'Raleway', sans-serif;
+}
+
+.footerimage {
+	background-image: url("images/footerimage.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+
+	min-height: 100px;
+	width: 100%;
+
+	position: absolute;
+	bottom: 0;
+	pointer-events: none;
+}
+
+.footertext {
+	width: 100%;
+	position: absolute;
+	bottom: 40px;
+	color: white;
+	font-size: 12px;
+	text-align: center;
+	font-family: 'Raleway', sans-serif;
+}
+
+.menu {
+	top: -250px;
+	width: 100%;
+	position: relative;
+	text-align: center;
+}
+
+a {
+	text-decoration: underline;
+	color: ff6a00;
+}
+
+.button {
+	text-decoration: none;
+	background-color: transparent;
+	font-size: 16px;
+	padding: 15px;
+	width: 200px;
+	color: white;
+	border-radius: 5px;
+	border: 2px solid white;
+	cursor: pointer;
+	font-family: 'Raleway', sans-serif;
+	transition: background-color 0.5s;
+}
+
+.button:hover {
+	background-color: ff6a00;
+	transition: background-color 0.5s;
+}
+
+.tablebutton {
+	background-color: ff6a00;
+	text-decoration: none;
+	text-align: center;
+	font-size: 24px;
+	padding: 15px;
+	width: 300px;
+	color: white;
+	border-radius: 5px;
+	border-color: black;
+	cursor: pointer;
+	font-family: 'Raleway', sans-serif;
+	transition: background-color 0.5s;
+}
+
+.button:focus {
+	outline: none;
+}
+
+a + a {
+	margin-left: 30px;
+}
+
+.selectedbutton {
+	text-decoration: none;
+	disabled: true;
+	font-size: 16px;
+	padding: 15px;
+	width: 200px;
+	color: white;
+	background-color: ff6a00;
+	border-radius: 5px;
+	border: none;
+	font-family: 'Raleway', sans-serif;
+}
+
+.body {
+	top: -60px;
+	position: relative;
+}
+
+.bodytext {
+	margin-left: 250px;
+	margin-right: 250px;
+	padding-bottom: 100px;
+	font-family: 'Raleway';
+}
+
+h1 {
+	text-align: center;
+	font-family: 'Raleway';
+	font-size: 30px;
+	padding-bottom: 20px;
+}
+
+h3 {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	font-weight: 700;
+}
+
+ul {
+	margin-left: 20px;
+}
+
+.projectlists {
+	padding-left: 30px;
+}
+
+.experience_icons {
+	display: inline-block;
+	font-size: 30px;
+	padding: 10px;
+}
+
+table {
+	width: 100%;
+	border-spacing: 60px 0px;
+	table-layout: fixed;
+	word-wrap: break-word;
+	border-collapse: separate;
+	border-spacing: 20px;
+}
+
+.tableheader {
+	font-size: 30px;
+	width: 50%;
+}
+
+.tableinsideheader {
+	font-size: 30px;
+	width: 50%;
+	padding-top: 60px;
+}
+
+.tablecenterheader {
+	font-size: 30px;
+	width: 50%;
+	text-align: center;
+	padding-top: 60px;
+	left: 25%;
+}
+
+.tablecenterdata {
+	border: 0;
+	left: 25%;
+}
+
+td {
+	vertical-align: top;
+	background-color: f0f0f0;
+	padding: 15px;
+	border-top-left-radius: 25px;
+	border-bottom-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 25px;
+}
+
+.buttonrow {
+	text-align: center;
+	border: 0;
+	background-color: transparent;
+}
+
+img {
+	border-radius:10px;
+	width: 300;
+	height: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}

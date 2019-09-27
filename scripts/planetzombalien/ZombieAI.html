@@ -1,0 +1,125 @@
+<html>
+<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+
+<pre class="prettyprint">
+
+using UnityEngine;
+using System.Collections;
+
+public class ZombieAI : MonoBehaviour {
+	
+	PlayerController healthCheck;
+	public Transform playerPosition;
+	private bool isPlayerAlive;
+
+	//private bool facingRight;
+
+	public float moveSpeed = 2;
+	public float zombieHealth = 3;
+	public bool death;
+	public bool justHit;
+
+	AudioSource groan1;
+	AudioSource groan2;
+	AudioSource groan3;
+	public int groanPlay;
+	AudioSource hitSound;
+	AudioSource deathSound;
+
+	public GameObject medkit;
+
+	private float spawnTime = 1f;
+	private float activeAt;
+
+	public Vector2 direction = new Vector2(0.15f, 0);
+
+	void Awake () {
+
+	}
+
+	void Start() {
+		healthCheck = GameObject.FindWithTag ("Player").GetComponent<PlayerController> ();
+
+		playerPosition = GameObject.FindWithTag ("Player").transform;
+
+		activeAt = Time.time + spawnTime;
+
+		death = false;
+
+		AudioSource[] audioSource = GetComponents<AudioSource> ();
+		groan1 = audioSource [0];
+		groan2 = audioSource [1];
+		groan3 = audioSource [2];
+		hitSound = audioSource [3];
+
+		groanPlay = Random.Range (0, 3);
+
+		if (groanPlay == 0) {
+			groan1.Play ();
+		} else if (groanPlay == 1) {
+			groan2.Play ();
+		} else if (groanPlay == 2) {
+			groan3.Play ();
+		}
+
+		//facingRight = true;
+	}
+
+	void FixedUpdate() {
+		if (death) {
+			healthCheck.killCount = healthCheck.killCount + 1;
+
+			if (Random.Range(1, 10) == 1) {
+				Instantiate(medkit, this.transform.position, this.transform.rotation);
+			}
+
+			Destroy (this.gameObject);
+		}
+
+		if (zombieHealth == 2 && justHit) {
+			hitSound.Play ();
+			justHit = false;
+		} else if (zombieHealth == 1 && justHit) {
+			hitSound.Play ();
+			justHit = false;
+		} else if (zombieHealth == 0) {
+			justHit = false;
+		}
+	}
+
+	// Update is called once per frame
+	void Update () {
+		if (activeAt < Time.time) {
+			if (healthCheck.playerHealth > 0) {
+				Vector3 follow = new Vector3 (playerPosition.position.x, transform.position.y, transform.position.z);
+				transform.position = Vector3.MoveTowards (transform.position, follow, moveSpeed * Time.deltaTime);
+			}
+		}
+		/*
+		if (GetComponent<Rigidbody2D>().velocity.x >= 0 && !facingRight) {
+			facingRight = true;
+			Flip();
+		} else if (GetComponent<Rigidbody2D>().velocity.x <= 0 && facingRight) {
+			facingRight = false;
+			Flip();
+		}
+		*/
+	}
+
+	void OnCollisionEnter2D(Collision2D other) {
+		if (other.gameObject.tag == "Enemy") {
+			Physics2D.IgnoreCollision (other.gameObject.GetComponent<Collider2D> (), GetComponent<Collider2D> ());
+		}
+	}
+
+	void Flip()
+	{
+		Vector3 scale = transform.localScale;
+		scale.x *= -1;
+		transform.localScale = scale; 
+	}
+}
+
+
+</pre>
+</html>
